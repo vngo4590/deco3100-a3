@@ -3,3 +3,5 @@ alexs_tweet_data.zip
 potus_twitter_project.zip
 .vscode/settings.json
 potus_twitter_project/__MACOSX/
+potus_twitter_project/*.json
+potus_twitter_project/*_vectors.*
