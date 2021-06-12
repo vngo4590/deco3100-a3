@@ -54,11 +54,9 @@ def write_to_file(output_file:str, ids:list, x_output:list, y_output:list, clust
         output_writer.writerows(zip(ids, x_output, y_output, clusters))
     return None
 
-# row_ids, training_data = export_data("./potus_twitter_project/obama_presidential_tweet_vectors.csv")
-# x_output, y_output, xy_ouput = tsne_mainfold_transform(training_data)
-# x_y_array = np.concatenate((x_output, y_output),axis=2)
-# print(len(xy_ouput))
-# print(len(y_output))
+row_ids, training_data = export_data("./potus_twitter_project/obama_presidential_tweet_vectors.csv")
+x_output, y_output, xy_ouput = tsne_mainfold_transform(training_data)
+
 # Use euclidean
 # we pick min_samples betwen 2 and 5 because the general rule is to set min_samples >= dimensions 
 # Note that 2 gives out a lot of custers, so we will go with 5 

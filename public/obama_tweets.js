@@ -20,9 +20,9 @@ var addons = [{
     mode: 'markers',
     type: 'scatter',
     marker: {
-        size: 5,
+        // size: 5,
         colorscale: 'Jet'
     }
 }];
 
-readClusteredData("obama-tweets", "obama-tweets", "text",addons, layout, config);
+readClusteredData("obama-tweets", "scatter-cluster", ["obamacare"],"obama-tweets",addons, layout, config);

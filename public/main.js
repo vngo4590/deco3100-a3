@@ -30,6 +30,47 @@ function getClusteredDataSourceLink(type) {
 }
 
 
+function applyScatterCluster (data) {
+    let standardSize = 30;
+    var result = {
+        x: data.map(d => d["x"]),
+        y: data.map(d => d["y"]),
+        customdata: data.map(d => d["text"]),
+        hovertemplate: "%{customdata}" + "<extra></extra>",
+        marker: {
+            size: data.map(d => d["sentiment"]*standardSize),
+            colorscale: 'Jet',
+            color: data.map(d => d["cluster_id"]),
+        }
+    };
+    return result;
+}
+
+function applySentimentAvg(data) {
+    var sentiments = data.map(d => parseFloat(d["sentiment"]));
+    var sentiment_avg = findAverage(sentiments);
+    
+    // Go through every single ccountry and then graph the data based on the layout and the country name
+    var result = {
+        type: "indicator",
+        mode: "gauge+delta",
+        value: sentiment_avg
+    };
+    return result;
+}
+
+function findAverage (array) {
+    if (array.length == 0) {
+        return 0;
+    }
+    
+    var total =0;
+    for (var i in array) {
+        total += array[i];
+    }
+    
+    return total / array.length;
+}
 
 /**
  * Read the data from the given datasource
@@ -41,46 +82,40 @@ function getClusteredDataSourceLink(type) {
  * @param {*} config Configuration
  * @returns an object that obtains all values from the datasource
  */
-function readClusteredData(srcType, documentID, customData, addons, layout, config) {
+function readClusteredData(srcType, graphType, filter, documentID, addons, layout, config) {
     let allData = [];
     // Get link of the main data source
     let dataSource = getClusteredDataSourceLink(srcType);
     if (dataSource[0] == null || dataSource[1] == null) {
         return;
     }
-
+    
     // Plot graph based on data and country
     Plotly.d3.csv(dataSource[0], function (mapData) {
         let addonIndex = 0;
+        
         Plotly.d3.csv(dataSource[1], function (clusteredData) {
-            // Go through every single ccountry and then graph the data based on the layout and the country name
+            // Map tweets to the data
+            joinedData = mapData.map((tweet, index) => Object.assign(tweet, clusteredData[index]));
 
-            var result = {
-                x: clusteredData.map(d => d["x"]),
-                y: clusteredData.map(d => d["y"]),
-                customdata: mapData.map(d => d[customData]),
-                hovertemplate: "%{customdata}" + "<extra></extra>",
-                marker: {
-                    size: 4,
-                    colorscale: 'Jet',
-                    color: clusteredData.map(d => d.cluster_id),
-                }
-            };
+            // Get filtered datas
+            var filteredData = joinedData.filter(d => filter.some(topic => d["text"].toLowerCase().includes(topic.toLowerCase())));
+            
+            // Go through every single ccountry and then graph the data based on the layout and the country name
+            var result;
+            if (graphType == "scatter-cluster") {
+                result = applyScatterCluster(filteredData); 
+            } else if (graphType == "gauge-sentiment-avg") {
+                result = applySentimentAvg(filteredData);
+            }
 
             // Apply addons (entity layouts) onto the traces
             if (addons[addonIndex] != null && addons[addonIndex] != undefined) {
-                // Add additional addon to graph
-                Object.keys(addons[addonIndex]).forEach(function (key, index) {
-                    if (typeof addons[addonIndex][key] === 'object' && result[key] != undefined && result[key] != null) {
-                        
-                        Object.keys(addons[addonIndex][key]).forEach(function (innerKey, innerIndex) {
-                            result[key][innerKey] = addons[addonIndex][key][innerKey];
-                        });
-                    } else {
-                        result[key] = addons[addonIndex][key];
-                    }
-                });
+                // Addon to object
+                result = mergeRecursive(result, addons[addonIndex]);
+                // result = Object.assign(result, addons[0]);
             }
+            
 
             // Push trace to trace set
             allData.push(result);
@@ -90,4 +125,34 @@ function readClusteredData(srcType, documentID, customData, addons, layout, conf
             Plotly.newPlot(documentID, allData, layout, config);
         });
     });
+}
+
+
+
+
+
+/**
+ * Referenced from
+    https://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
+ * Recursively merge properties of two objects 
+ * @param {*} obj1
+ * @param {*} obj2 
+ * @returns The merged object
+ */
+function mergeRecursive(obj1, obj2) {
+    for (var p in obj2) {
+      try {
+        // Property in destination object set; update its value.
+        if ( obj2[p].constructor==Object ) {
+          obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+  
+        } else {
+          obj1[p] = obj2[p];
+        }
+      } catch(e) {
+        // Create Property if not set
+        obj1[p] = obj2[p];
+      }
+    }
+    return obj1;
 }
