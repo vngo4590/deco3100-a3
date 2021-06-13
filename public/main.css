@@ -7,3 +7,18 @@ img.img-slideshow {
 .twitter-tweet, .twitter-tweet-rendered {
     margin: auto !important;
 }
+
+.tweet-slides {
+    height: 300px;
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+ /* html5-main-video */
+iframe.vid-frame {
+    width:560px;
+    height:315px;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
