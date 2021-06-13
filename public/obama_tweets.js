@@ -1,5 +1,5 @@
 var layout = {
-    title: "Obama Presidential Tweets",
+    title: "Obama Presidential Tweets About Obamacare",
     hovermode: "closest",
     xaxis: {
         visible: false,
@@ -7,7 +7,7 @@ var layout = {
     yaxis: {
         visible: false,
     },
-    showlegend: true,
+    showlegend: false,
     legend: {
        
         xanchor: "right",
@@ -15,7 +15,7 @@ var layout = {
     }
 };
 
-var config = {displayModeBar:false};
+var config = {displayModeBar:false,scrollZoom: true};
 var addons = [{
     mode: 'markers',
     type: 'scatter',
