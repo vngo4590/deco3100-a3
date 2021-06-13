@@ -1,13 +1,15 @@
-const dataDir = "./clustered_data/"
-const obamaTweetKmeansPlus = dataDir + "obama_presidential_tweet_kmeans_plus.csv";
-const vocabKmeansPlus = dataDir + "presidential_vocabulary_vectors_kmeans_plus.csv";
-const trumpKmeansPlus = dataDir + "trump_presidential_tweet_vectors_kmeans_plus.csv";
+const clusteredDataDir = "./clustered_data/"
+const obamaTweetKmeansPlus = clusteredDataDir + "obama_presidential_tweet_kmeans_plus.csv";
+const vocabKmeansPlus = clusteredDataDir + "presidential_vocabulary_vectors_kmeans_plus.csv";
+const trumpKmeansPlus = clusteredDataDir + "trump_presidential_tweet_vectors_kmeans_plus.csv";
 
 const mapDataDir = "./potus_twitter_project/";
 const obamaTweets = mapDataDir + "obama_presidential_tweets.csv";
 const vocabPres = mapDataDir + "presidential_vocabulary.csv";
 const trumpTweets = mapDataDir + "trump_presidential_tweets.csv";
 
+const otherDataDir = "./other_data/";
+const uninsuredData = otherDataDir + "kff_uninsured_nonelderly.csv";
 
 
 /**
@@ -30,7 +32,7 @@ function getClusteredDataSourceLink(type) {
 }
 
 
-function applyScatterCluster (data) {
+function applyScatterCluster(data) {
     let standardSize = 30;
     var result = {
         x: data.map(d => d["x"]),
@@ -38,7 +40,7 @@ function applyScatterCluster (data) {
         customdata: data.map(d => d["text"]),
         hovertemplate: "%{customdata}" + "<extra></extra>",
         marker: {
-            size: data.map(d => d["sentiment"]*standardSize),
+            size: data.map(d => d["sentiment"] * standardSize),
             colorscale: 'Jet',
             color: data.map(d => d["cluster_id"]),
         }
@@ -61,7 +63,7 @@ function applyGaugeSentimentAvg(data) {
 function applyPieSentiment(data) {
     var sentiments = data.map(d => parseFloat(d["sentiment"]));
     var sentiment_positive = sentiments.filter(d => d > 0);
-    var positive_percent = sentiment_positive.length/sentiments.length;
+    var positive_percent = sentiment_positive.length / sentiments.length;
     var result = {
         type: "pie",
         values: [positive_percent, 1 - positive_percent],
@@ -71,18 +73,56 @@ function applyPieSentiment(data) {
     return result;
 }
 
-function findAverage (array) {
+function findAverage(array) {
     if (array.length == 0) {
         return 0;
     }
-    
-    var total =0;
+    var total = 0;
     for (var i in array) {
         total += array[i];
     }
-    
     return total / array.length;
 }
+
+function readUninsuredData(documentID, addons, layout, config) {
+    let allData = [];
+
+    // Get link of the main data source
+    let dataSource = uninsuredData;
+
+
+    // Plot graph based on data and country
+    Plotly.d3.csv(dataSource, function (data) {
+        var resultMillions = {
+            type: 'bar',
+            x: data.map(d => d["year"]),
+            y: data.map(d => d["in millions"]),
+            name: "million Americans"
+        };
+        var resultRate = {
+            type: 'scatter',
+            x: data.map(d => d["year"]),
+            y: data.map(d => d["percentage"]),
+            name: "percent of all Americans"
+        };
+        allData.push(resultMillions);
+        allData.push(resultRate);
+        let addonIndex = 0;
+        while (addonIndex < allData.length && addonIndex < addons.length) {
+            // Apply addons (entity layouts) onto the traces
+            if (addons[addonIndex] != null && addons[addonIndex] != undefined) {
+                // Addon to object
+                allData[addonIndex] = mergeRecursive(allData[addonIndex], addons[addonIndex]);
+                // result = Object.assign(result, addons[0]);
+            }
+            addonIndex += 1;
+        }
+        // Graph
+        Plotly.newPlot(documentID, allData, layout, config);
+    });
+
+}
+
 
 /**
  * Read the data from the given datasource
@@ -101,22 +141,22 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
     if (dataSource[0] == null || dataSource[1] == null) {
         return;
     }
-    
+
     // Plot graph based on data and country
     Plotly.d3.csv(dataSource[0], function (mapData) {
         let addonIndex = 0;
-        
+
         Plotly.d3.csv(dataSource[1], function (clusteredData) {
             // Map tweets to the data
             joinedData = mapData.map((tweet, index) => Object.assign(tweet, clusteredData[index]));
 
             // Get filtered datas
             var filteredData = joinedData.filter(d => filter.some(topic => d["text"].toLowerCase().includes(topic.toLowerCase())));
-            
+
             // Go through every single ccountry and then graph the data based on the layout and the country name
             var result;
             if (graphType == "scatter-cluster") {
-                result = applyScatterCluster(filteredData); 
+                result = applyScatterCluster(filteredData);
             } else if (graphType == "gauge-sentiment-avg") {
                 result = applyGaugeSentimentAvg(filteredData);
             } else if (graphType == "pie-sentiment") {
@@ -133,7 +173,7 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
                 result = mergeRecursive(result, addons[addonIndex]);
                 // result = Object.assign(result, addons[0]);
             }
-            
+
 
             // Push trace to trace set
             allData.push(result);
@@ -159,18 +199,18 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
  */
 function mergeRecursive(obj1, obj2) {
     for (var p in obj2) {
-      try {
-        // Property in destination object set; update its value.
-        if ( obj2[p].constructor==Object ) {
-          obj1[p] = mergeRecursive(obj1[p], obj2[p]);
-  
-        } else {
-          obj1[p] = obj2[p];
+        try {
+            // Property in destination object set; update its value.
+            if (obj2[p].constructor == Object) {
+                obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+
+            } else {
+                obj1[p] = obj2[p];
+            }
+        } catch (e) {
+            // Create Property if not set
+            obj1[p] = obj2[p];
         }
-      } catch(e) {
-        // Create Property if not set
-        obj1[p] = obj2[p];
-      }
     }
     return obj1;
 }

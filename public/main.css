@@ -13,6 +13,8 @@ img.img-slideshow {
     width: 70vw;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    align-items: center;
 }
  /* html5-main-video */
 iframe.vid-frame {

@@ -24,7 +24,7 @@ img.tweet-fake-img {
     max-width: 490px;
     background: #fff;
     margin: 0 auto;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     padding: 30px;
     border-radius: 2em;
     border: #1DA1F2 1px solid;

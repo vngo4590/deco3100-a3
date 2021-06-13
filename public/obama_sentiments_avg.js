@@ -1,5 +1,5 @@
 var layout = {
-    title: "Trump Presidential Tweets about Obamacare Sentiment",
+    title: "Average of Sentiment Score on <br>Obama Presidential Tweets about Obamacare",
     hovermode: "closest",
     xaxis: {
         visible: false,
@@ -17,6 +17,7 @@ var layout = {
 var config = {
     displayModeBar: false
 };
+
 var addons = [{
     delta: {
         reference: 0,
@@ -58,4 +59,5 @@ var addons = [{
         }
     }
 }];
-readClusteredData("trump-tweets", "gauge-sentiment-avg", ["obamacare"],"trump-tweets-sentiments",addons, layout, config);
+
+readClusteredData("obama-tweets", "gauge-sentiment-avg", ["obamacare"],"obama-tweets-sentiments",addons, layout, config);
