@@ -4,6 +4,6 @@ img.img-slideshow {
     object-fit: cover;
 }
 
-.twitter-tweet {
+.twitter-tweet, .twitter-tweet-rendered {
     margin: auto;
 }
