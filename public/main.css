@@ -3,3 +3,7 @@ img.img-slideshow {
     object-position: 0 30%;
     object-fit: cover;
 }
+
+.twitter-tweet {
+    margin: auto;
+}
