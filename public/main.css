@@ -5,5 +5,5 @@ img.img-slideshow {
 }
 
 .twitter-tweet, .twitter-tweet-rendered {
-    margin: auto;
+    margin: auto !important;
 }
