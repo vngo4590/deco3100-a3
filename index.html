@@ -1,22 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <title>My Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./public/twitter.css">
+    <link rel="stylesheet" href="./public/main.css">
+
+    <title>Tcscsc</title>
 </head>
+
 <body>
-    <div id="obama-tweets"></div>
+    <!-- SLIDESHOW -->
+    <div id="intro-slideshow" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="./src/trump1.jpg" class="d-block w-100 img-slideshow" alt="Trump on Newspaper">
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="./src/trump2.jpg" class="d-block w-100 img-slideshow" alt="Trump supporters">
+            </div>
+            <div class="carousel-item">
+                <img src="./src/obamacaresupp.jpg" class="d-block w-100 img-slideshow" alt="Obamacare supporters">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#intro-slideshow" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#intro-slideshow" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="container mt-5">
+        <h1 class="display-2">
+            The conflict between Trump and Obamacare
+        </h1>
+        <p class="lead italic fs-4">
+            Obamacare was signed by Obama on March 23, 2010. It has provided almost all Americans, especially those who
+            are poor, great health subsidies that no other Acts have offered before. Trump, however, is strongly against
+            this act. Many believed that his root of hatred all started at the The annual Washington Post gala White
+            House Correspondents’ Dinner ...
+        </p>
+
+        <!-- 
+            The conflict between Trump and Obamacare
+         -->
+        <div class="my-5">
+            <h1>
+                The conflict between Trump and Obamacare
+            </h1>
+            <p class="fs-5 mt-4">
+                Ever since Trump became the president of USA in 2017, he has been working towards repealing Obamacare
+                and
+                the Affordable Care Act once and for all. One of many reasons that he is putting so much efforts to
+                repeal
+                these acts is that the ACA has made it compulsory for most Americans to purchase their own insurance. As
+                a
+                result of the ACA, most Americans would have to limit their weekly incomes just to pay for Medicare
+                premiums.
+            </p>
+            <figure class="text-center">
+                <blockquote class="blockquote fs-4 lead">
+                    <p>"Wouldn’t it be great to Repeal the very unfair and unpopular Individual Mandate in ObamaCare and
+                        use those savings for further Tax Cuts for the Middle Class ... The House and Senate should
+                        consider ASAP as the process of final approval moves along. Push Biggest Tax Cuts EVER."</p>
+                </blockquote>
+                <figcaption class="blockquote-footer fs-5">
+                    Donald Trump
+                </figcaption>
+            </figure>
+            <p class="fs-5 mt-4">
+                According to Trump's tweets between 2017 and and 2020, it is evident that he was very vocal about
+                demolishing the act. However, not many medias or people supported his views and decisions, specially in
+                2020, where the pandemic began (Dorning, M., Dennis, T. S., (2020, June)).
+            </p>
+            <div class="my-5">
+                <h4>
+                    Top Tweets that have High sentiment scores
+                </h4>
+                <div id="twitterTrumpFadeHigh" class="carousel slide carousel-fade tweet-fake" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> March 2017
+                                        </span>
+                                        <p>ObamaCare will explode and we will all get together and piece together a great healthcare plan for THE PEOPLE. Do not worry!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> March 2017
+                                        </span>
+                                        <p>Great op-ed from
+                                            <span class="tweet-tag"> @RepKenBuck</span>. Looks like some in the Freedom Caucus are helping me end <span class="tweet-tag"> #Obamacare.</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> March 2017
+                                        </span>
+                                        <p>"It was a GREAT day for the United States of America! This is a great plan that is a repeal & replace of ObamaCare.... <a href="https://t.co/0TnmLn55Lm" class="tweet-tag"> https://t.co/0TnmLn55Lm</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#twitterTrumpFadeHigh"
+                        data-bs-slide="prev">
+                        <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+                        <i class="fas fa-angle-left fs-1 tweet-tag"></i>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#twitterTrumpFadeHigh"
+                        data-bs-slide="next">
+                        <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+                        <i class="fas fa-angle-right fs-1 tweet-tag"></i>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="my-5">
+                <h4>
+                    Top Tweets that have Low sentiment scores
+                </h4>
+                <div id="twitterTrumpFadeLow" class="carousel slide carousel-fade tweet-fake" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> April 2020
+                                        </span>
+                                        <p>Biden/Obama were a disaster in handling the H1N1 Swine Flu. Polling at the time showed disastrous approval numbers. 17,000 people died unnecessarily and through incompetence! Also, don’t forget their 5 Billion Dollar Obamacare website that should have cost close to nothing!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> April 2017
+                                        </span>
+                                        <p>Democrats are trying to bail out insurance companies from disastrous 
+                                            <span> #ObamaCare</span>, and Puerto Rico with your tax dollars. Sad!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <!-- <img src="..." class="d-block w-100" alt="..."> -->
+                            <div class="tweet-wrap d-block">
+                                <div class="tweet-header">
+                                    <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                                    <div class="tweet-header-info">
+                                        Donald J. Trump <span>@realDonaldTrump</span><span> January 2017
+                                        </span>
+                                        <p>People must remember that ObamaCare just doesn't work, and it is not affordable - 116% increases (Arizona). Bill Clinton called it ""CRAZY""
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#twitterTrumpFadeLow"
+                        data-bs-slide="prev">
+                        <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+                        <i class="fas fa-angle-left fs-1 tweet-tag"></i>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#twitterTrumpFadeLow"
+                        data-bs-slide="next">
+                        <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+                        <i class="fas fa-angle-right fs-1 tweet-tag"></i>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <div id="trump-tweets-sentiments-pie"></div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <p class="fs-5 mt-4">
+                        According to sentiment scores of Trump's Tweets, it shows that his voice about Obamacare is
+                        entirely negative. The tweets that have higher sentiment seem to focus on his achievements on
+                        repealing Obamacare, whereas the others emphasize on how costly Obamacare was to Americans.
+                    </p>
+                </div>
+            </div>
+            <figure class="text-center">
+                <blockquote class="blockquote fs-4 lead">
+                    <p>"A global pandemic does not change what Americans know: Obamacare has been an unlawful failure
+                        and further illustrates the need to focus on patient care"</p>
+                </blockquote>
+                <figcaption class="blockquote-footer fs-5">
+                    Trump spokesman, Judd Deere
+                </figcaption>
+            </figure>
+            <p class="fs-5 mt-4">
+                One of the vows that Trump had publicly made on his presidency was to replace the ACA with better
+                alternatives. However, the White House and Republican lawmakers have not yet introduce any detailed
+                plan.
+            </p>
+
+            <div class="tweet-fake">
+                <div class="tweet-wrap">
+                    <div class="tweet-header">
+                        <img src="./src/realdonald.jpg" alt="" class="avator tweet-fake-img">
+                        <div class="tweet-header-info">
+                            Donald J. Trump <span>@realDonaldTrump</span><span> June 2020
+                            </span>
+                            <p>....Obamacare is a joke! Deductible is far too high and the overall cost is ridiculous. My
+                                Administration has gone out of its way to manage OC much better than previous, but it is
+                                still no good. I will ALWAYS PROTECT PEOPLE WITH PRE-EXISTING CONDITIONS, ALWAYS,
+                                ALWAYS,ALWAYS!!!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="my-5">
+            
+        </div>
+    </div>
+
+    <!-- <div id="obama-tweets"></div>
     <div id="trump-tweets"></div>
     <div id="trump-tweets-sentiments"></div>
+     -->
+
     <script src="./public/main.js"></script>
     <script src="./public/obama_tweets.js"></script>
     <script src="./public/trump_tweets.js"></script>
     <script src="./public/trump_sentiments.js"></script>
-    
+    <script src="./public/trump_sentiments_pie.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

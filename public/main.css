@@ -1,0 +1,5 @@
+img.img-slideshow {
+    height: 500px;
+    object-position: 0 30%;
+    object-fit: cover;
+}

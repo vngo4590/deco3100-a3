@@ -46,16 +46,28 @@ function applyScatterCluster (data) {
     return result;
 }
 
-function applySentimentAvg(data) {
+function applyGaugeSentimentAvg(data) {
     var sentiments = data.map(d => parseFloat(d["sentiment"]));
-    var sentiment_avg = findAverage(sentiments);
-    
+    var sentimentAvg = findAverage(sentiments);
     // Go through every single ccountry and then graph the data based on the layout and the country name
     var result = {
         type: "indicator",
         mode: "gauge+delta",
-        value: sentiment_avg
+        value: sentimentAvg
     };
+    return result;
+}
+
+function applyPieSentiment(data) {
+    var sentiments = data.map(d => parseFloat(d["sentiment"]));
+    var sentiment_positive = sentiments.filter(d => d > 0);
+    var positive_percent = sentiment_positive.length/sentiments.length;
+    var result = {
+        type: "pie",
+        values: [positive_percent, 1 - positive_percent],
+        labels: ["Positive", "Negative"],
+        textinfo: "label+percent"
+    }
     return result;
 }
 
@@ -106,8 +118,14 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
             if (graphType == "scatter-cluster") {
                 result = applyScatterCluster(filteredData); 
             } else if (graphType == "gauge-sentiment-avg") {
-                result = applySentimentAvg(filteredData);
+                result = applyGaugeSentimentAvg(filteredData);
+            } else if (graphType == "pie-sentiment") {
+                result = applyPieSentiment(filteredData);
             }
+
+            console.log(filteredData.sort((a, b) => {
+                return parseFloat(a["sentiment"]) - parseFloat(b["sentiment"]);
+            }));
 
             // Apply addons (entity layouts) onto the traces
             if (addons[addonIndex] != null && addons[addonIndex] != undefined) {

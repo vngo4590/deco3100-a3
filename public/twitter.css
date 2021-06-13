@@ -1,0 +1,109 @@
+/*
+    Referenced from 
+    Rahman, M. CodePen Home Twitter tweet layout with css flexbox. Available at: https://codepen.io/moshfequr9/pen/wXQbPR
+*/
+
+.tweet-fake {
+    font-family: 'Asap', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    
+}
+
+img.tweet-fake-img {
+    max-width: 100%;
+}
+
+.avator {
+    border-radius: 100px;
+    width: 48px;
+    margin-right: 15px;
+}
+
+
+.tweet-wrap {
+    max-width: 490px;
+    background: #fff;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 30px;
+    border-radius: 2em;
+    border: #1DA1F2 1px solid;
+}
+
+.tweet-header {
+    display: flex;
+    align-items: flex-start;
+    font-size: 14px;
+}
+
+.tweet-header-info {
+    font-weight: bold;
+}
+
+.tweet-header-info span {
+    color: #657786;
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+.tweet-header-info p {
+    font-weight: normal;
+    margin-top: 5px;
+
+}
+
+.tweet-img-wrap {
+    padding-left: 60px;
+}
+
+.tweet-info-counts {
+    display: flex;
+    margin-left: 60px;
+    margin-top: 10px;
+}
+
+.tweet-info-counts div {
+    display: flex;
+    margin-right: 20px;
+}
+
+.tweet-info-counts div svg {
+    color: #657786;
+    margin-right: 10px;
+}
+.tweet-tag {
+    color: #1DA1F2;
+}
+
+
+@media screen and (max-width:430px) {
+    .tweet-fake {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .tweet-header {
+        flex-direction: column;
+    }
+
+    .tweet-header img {
+        margin-bottom: 20px;
+    }
+
+    .tweet-header-info p {
+        margin-bottom: 30px;
+    }
+
+    .tweet-img-wrap {
+        padding-left: 0;
+    }
+
+    .tweet-info-counts {
+        display: flex;
+        margin-left: 0;
+    }
+
+    .tweet-info-counts div {
+        margin-right: 10px;
+    }
+}
