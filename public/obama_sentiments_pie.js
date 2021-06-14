@@ -1,5 +1,7 @@
 var layout = {
-    title: "Obama Presidential Tweets about <br> Obamacare Sentiment in Pie Chart",
+    title: {text:"<b>Obama Presidential Tweets about <br> Obamacare Sentiment in Pie Chart<b>", font: {
+        size: 20
+    }},
     hovermode: "closest",
     xaxis: {
         visible: false,
@@ -20,5 +22,6 @@ var config = {
 var addons = [{
     textposition: "outside",
     automargin: true
+    
 }];
 readClusteredData("obama-tweets", "pie-sentiment", ["obamacare"],"obama-tweets-sentiments-pie",addons, layout, config);

@@ -1,5 +1,11 @@
 var layout = {
-    title: "Number of Uninsured and Uninsured Rate <br> among Nonelderly Population",
+    title:
+    {
+        text: "<b>Number of Uninsured<br> among Nonelderly Population</b>",
+        font: {
+            size: 20
+        }
+    },
     font: {
         size: 18,
         family: "Roboto, sans-serif",
@@ -10,7 +16,7 @@ var layout = {
         autorange:true
     },
     yaxis: {
-        title: "In Millions",
+        title: "Millions of Americans",
         autorange:true
     },
     yaxis2: {
@@ -28,13 +34,16 @@ var layout = {
 };
 var config = {displayModeBar:false};
 var addons = [{
+    marker: {
+        color: '#47abd8'
+    }
 },{
     mode: 'lines+markers',
     marker: {
-        color: '#FDB849',
+        color: '#FF4242',
         line: {
             width: 2.5,
-            color:'#FDB849'
+            color:'#FF4242'
         }
     }
 }];

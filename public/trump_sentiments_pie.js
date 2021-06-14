@@ -1,5 +1,5 @@
 var layout = {
-    title: "Trump Presidential Tweets about Obamacare Sentiment in Pie Chart",
+    title: {text:"<b>Trump Presidential Tweets <br> about Obamacare Sentiment in Pie Chart</b>", font:{size:20}},
     hovermode: "closest",
     xaxis: {
         visible: false,

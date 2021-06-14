@@ -1,6 +1,5 @@
 var layout = {
-    title: "Average of Sentiment Score on <br>Obama Presidential Tweets about Obamacare",
-    hovermode: "closest",
+    title: {text:"<b>Average of Sentiment Score on <br>Obama Presidential Tweets about Obamacare</b>", font: {size:20}},
     xaxis: {
         visible: false,
     },
@@ -22,10 +21,10 @@ var addons = [{
     delta: {
         reference: 0,
         increasing: {
-            color: "green"
+            color: "#47abd8"
         },
         decreasing: {
-            color: "red"
+            color: "#FF4242"
         }
     },
     gauge: {
@@ -35,18 +34,18 @@ var addons = [{
             tickcolor: "darkblue"
         },
         bar: {
-            color: "darkblue"
+            color: "white"
         },
         bgcolor: "white",
         borderwidth: 2,
-        bordercolor: "gray",
+        bordercolor: "white",
         steps: [{
                 range: [-1, 0],
-                color: "cyan"
+                color: "#FF4242"
             },
             {
                 range: [0, 1],
-                color: "royalblue"
+                color: "#47abd8"
             }
         ],
         threshold: {
@@ -59,5 +58,6 @@ var addons = [{
         }
     }
 }];
+
 
 readClusteredData("obama-tweets", "gauge-sentiment-avg", ["obamacare"],"obama-tweets-sentiments",addons, layout, config);

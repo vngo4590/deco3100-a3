@@ -11,6 +11,7 @@ const trumpTweets = mapDataDir + "trump_presidential_tweets.csv";
 const otherDataDir = "./other_data/";
 const uninsuredData = otherDataDir + "kff_uninsured_nonelderly.csv";
 
+const standardSize = 50;
 
 /**
  * Get data link of the clustered data
@@ -33,7 +34,7 @@ function getClusteredDataSourceLink(type) {
 
 
 function applyScatterCluster(data) {
-    let standardSize = 30;
+
     var result = {
         x: data.map(d => d["x"]),
         y: data.map(d => d["y"]),
@@ -67,8 +68,13 @@ function applyPieSentiment(data) {
     var result = {
         type: "pie",
         values: [positive_percent, 1 - positive_percent],
-        labels: ["Positive", "Negative"],
-        textinfo: "label+percent"
+        labels: ["Positive Sentiment", "Negative Sentiment"],
+        textinfo: "label+percent",
+        marker: {
+            colors: [
+                "#47abd8", "#FF4242"
+            ]
+        }
     }
     return result;
 }
@@ -97,13 +103,13 @@ function readUninsuredData(documentID, addons, layout, config) {
             type: 'bar',
             x: data.map(d => d["year"]),
             y: data.map(d => d["in millions"]),
-            name: "million Americans"
+            name: "Millions of Americans"
         };
         var resultRate = {
             type: 'scatter',
             x: data.map(d => d["year"]),
             y: data.map(d => d["percentage"]),
-            name: "percent of all Americans"
+            name: "Percent of All Americans"
         };
         allData.push(resultMillions);
         allData.push(resultRate);
@@ -122,6 +128,98 @@ function readUninsuredData(documentID, addons, layout, config) {
     });
 
 }
+
+function getData(year, lookup) {
+    var trace;
+    if (!(trace = lookup[year])) {
+        trace = lookup[year] = {
+            x: [],
+            y: [],
+            customdata: [],
+            marker: {
+                size: [],
+                color: []
+            }
+        };
+    }
+    return trace;
+}
+
+function applyScatterClusterTimeline(data) {
+    // Create a lookup table containing data organized by years
+    var lookup = {};
+    // Go through data and sort data by year
+    for (var i = 0; i < data.length; i++) {
+        var datum = data[i];
+        var dateDatum = new Date(datum["datetime"]);
+        var trace = getData(String(dateDatum.getFullYear()), lookup);
+        trace.customdata.push(datum["text"]);
+        trace.x.push(datum["x"]);
+        trace.y.push(datum["y"]);
+        trace.marker.size.push(datum["sentiment"] * standardSize);
+        trace.marker.color.push(datum["cluster_id"]),
+        trace.hovertemplate = "%{customdata}";
+
+    }
+
+    // Get years
+    var years = Object.keys(lookup);
+    var lastYear = lookup[years[0]];
+    var traces = [{
+        x: lastYear.x.slice(),
+        y: lastYear.y.slice(),
+        customdata: lastYear.customdata.slice(),
+        marker: {
+            size: lastYear.marker.size.slice(),
+            color: lastYear.marker.color.slice()
+        },
+        hovertemplate: "%{customdata}"
+    }];
+    
+
+    // Put data into frames
+    // create slider steps, one for each frame.
+    var frames = [];
+    var sliderSteps = [];
+    for (var i = 0; i < years.length; i++) {
+        // Get the data we need
+        var dataInsert = getData(years[i], lookup);
+
+        frames.push({
+            name: years[i],
+            data: [dataInsert]
+        })
+
+        sliderSteps.push({
+            method: 'animate',
+            label: years[i],
+            args: [
+                [years[i]], {
+                    mode: 'immediate',
+                    transition: {
+                        duration: 5000
+                    },
+                    frame: {
+                        duration: 5000,
+                        redraw: false
+                    },
+                }
+            ]
+        });
+    }
+    return {
+        data: traces,
+        steps: sliderSteps,
+        frames: frames
+    };
+}
+
+function sortData(data) {
+    return data.sort((a, b) => {
+        return parseFloat(a["sentiment"]) - parseFloat(b["sentiment"])
+    });
+}
+
 
 
 /**
@@ -153,6 +251,7 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
             // Get filtered datas
             var filteredData = joinedData.filter(d => filter.some(topic => d["text"].toLowerCase().includes(topic.toLowerCase())));
 
+
             // Go through every single ccountry and then graph the data based on the layout and the country name
             var result;
             if (graphType == "scatter-cluster") {
@@ -161,26 +260,38 @@ function readClusteredData(srcType, graphType, filter, documentID, addons, layou
                 result = applyGaugeSentimentAvg(filteredData);
             } else if (graphType == "pie-sentiment") {
                 result = applyPieSentiment(filteredData);
+            } else if (graphType == "timeline-scatter-cluster") {
+                // Get list of all years
+                result = applyScatterClusterTimeline(filteredData);
+            }
+            
+            var frames = [];
+            if (graphType != "timeline-scatter-cluster") {
+                // Apply addons (entity layouts) onto the traces
+                if (addons[addonIndex] != null && addons[addonIndex] != undefined) {
+                    // Addon to object
+                    result = mergeRecursive(result, addons[addonIndex]);
+                }
+
+
+                // Push trace to trace set
+                allData.push(result);
+                addonIndex += 1;
+                
+            } else {
+                // add result to data
+                allData.push(result.data[0]);
+                console.log(allData);
+                frames = result.frames;
+                layout.sliders[0].steps = result.steps;
+                for (var f =0; f < frames.length; f++) {
+                    frames[f].data[0] = mergeRecursive(frames[f].data[0], addons[0]);
+                }
+                allData[0] = mergeRecursive(allData[0], addons[0]);
             }
 
-            console.log(filteredData.sort((a, b) => {
-                return parseFloat(a["sentiment"]) - parseFloat(b["sentiment"]);
-            }));
-
-            // Apply addons (entity layouts) onto the traces
-            if (addons[addonIndex] != null && addons[addonIndex] != undefined) {
-                // Addon to object
-                result = mergeRecursive(result, addons[addonIndex]);
-                // result = Object.assign(result, addons[0]);
-            }
-
-
-            // Push trace to trace set
-            allData.push(result);
-            addonIndex += 1;
-
-            // Graph
-            Plotly.newPlot(documentID, allData, layout, config);
+            Plotly.newPlot(documentID, {data:allData, layout:layout, config:config, frames: frames});
+            
         });
     });
 }

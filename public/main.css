@@ -1,3 +1,11 @@
+* {
+    font-family: var(--main-font);
+}
+
+.lead {
+    font-weight: 200;
+}
+
 img.img-slideshow {
     height: 500px;
     object-position: 0 30%;
@@ -23,4 +31,29 @@ iframe.vid-frame {
     display: block;
     margin-left: auto !important;
     margin-right: auto !important;
+}
+
+.font-red {
+    color: var(--red-color);
+}
+.font-blue {
+    color: var(--blue-color);
+}
+.font-gray {
+    color: var(--gray-color);
+}
+.blockquote {
+    font-style: italic;
+}
+:root {
+    --main-font: 'Open Sans', sans-serif;
+    --blue-color: #47abd8;
+    --red-color: #FF4242;
+    --gray-color: #c9c9c9;
+}
+figure {
+    border-top: 2px solid ;
+    border-bottom: 5px solid;
+    border-color: var(--gray-color);
+    /* border-radius: 1em; */
 }
